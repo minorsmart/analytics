@@ -1,59 +1,71 @@
-# Data Understanding {#understand}
+# Introduction {.unnumbered}
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/PExdWWcxmro" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen>
-
-</iframe>
-
-Links:
-
-1.  <a href="https://www.kaggle.com/" target="_blank">www.kaggle.com/</a>
-2.  <a href="https://datasetsearch.research.google.com" target="_blank">datasetsearch.research.google...</a>
-3.  <a href="https://data.fivethirtyeight.com/" target="_blank">data.fivethirtyeight.com/</a>
-4.  <a href="https://data.gov/" target="_blank">data.gov/</a>
-5.  <a href="https://github.com/search?q=dataset" target="_blank">github.com/search?q=dataset</a>
-6.  <a href="https://data.nasa.gov/" target="_blank">data.nasa.gov/</a>
-7.  <a href="https://github.com/HAN-M3DM-Data-Mining/assignments/tree/master/datasets" target="_blank">selected datasets</a>
-
-```{r echo=FALSE, message=TRUE, warning=TRUE}
-index <- c("1", "2")
-topic <- c("Finding Data", "Descriptive Statistics")
-tasks <- c("Explore the different sources of data that may be used in data mining, and how to extract and access this data.", "Calculate basic descriptive statistics that are commonly used in data mining, and understand how they are used to summarize datasets.")
-activities <- c("Think-Pair-Share: students will individually brainstorm potential sources of data, pair up with a partner to discuss, and then share with the class.", " Jigsaw: students will be grouped into teams and tasked to gather data from various sources, conduct descriptive statistics, and report their findings to the rest of the class.")
-student <- c("'We learned about various data sources and perspectives of different students during the brainstorming activity.' 
-", "'We learned the importance of teamwork, critical thinking, and communication skills by working together to conduct descriptive statistics on our assigned data set.'")
-teacher <- c("'Our objective here is to generate a list of possible sources of data that we can use for data mining. As a teacher, I want you to participate actively in brainstorming and support each other's thoughts. As students, you will be able to collaborate and gain insights from your peers.'", "'The goal here is to give every student a chance to delve deeper into specific aspects of data mining. As a teacher, my role is to facilitate the group and ensure everyone is participating. As students, you are expected to synthesize, analyze, and present your findings through a collaborative effort.'")
-headers <- c("","Topic", "Tasks", "Activities", "Student", "Teacher")
-outlineDF <- data.frame(index, topic, tasks, activities, student, teacher)
-colnames(outlineDF) <- headers
-
-knitr::kable(
-  outlineDF, longtable = TRUE, booktabs = TRUE,
-  caption = 'Lesson outline'
-)
+```{r title-fig, echo=FALSE, fig.align='center', fig.asp=.75, fig.cap='CRISP-DM Model taken from: https://commons.wikimedia.org/wiki/File:CRISP-DM_Process_Diagram.png', message=TRUE, warning=TRUE, out.width='80%'}
+knitr::include_graphics(rep('crisp.png'))
 ```
 
-ETL stands for Extract, Transform, and Load. It is a process used in data integration and data warehousing to extract data from various sources, transform it into a consistent format, and load it into a target system. The "Extract" phase involves gathering data from multiple sources, such as databases, spreadsheets, or APIs. In the "Transform" phase, the data is cleaned, validated, and standardized to ensure consistency and quality. Finally, in the "Load" phase, the transformed data is loaded into a target system, such as a data warehouse or a business intelligence tool, making it accessible for analysis and reporting. ETL is a crucial step in data management to ensure accurate and usable data for decision-making.
+Data mining is the process of sorting through large datasets to identify patterns or relationships to inform business decisions. It is a crucial aspect of modern data analytics, particularly for industries that rely heavily on large amounts of data to inform their business operations.
 
-In the next example we are going to extract and load a data set. The data comes from <a href="https://ourworldindata.org/grapher/artificial-intelligence-training-computation" target="_blank">here</a>.
+# Setup
 
-```{python}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/inN8seMm7UI?si=3Ac-ZaNkCh4nlOQ0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+### 1. Introduction to Google Colab:
+Google Colab is a free, cloud-based platform that offers an environment to write and execute Python code. It's perfect for data science and machine learning tasks due to its free access to GPUs and TPUs.
+
+### 2. Accessing Google Colab:
+- Open your browser and go to [Google Colab](https://colab.research.google.com/).
+- Sign in with your Google account.
+
+### 3. Creating a New Notebook:
+- Click on `+ New Notebook` to create a new Python notebook.
+- You'll be presented with an interface similar to Jupyter Notebook.
+
+### 4. Changing the Runtime Type:
+For data-intensive tasks or deep learning, you might want to use a GPU or TPU.
+- Click on `Runtime` in the top menu.
+- Select `Change runtime type`.
+- Choose either `GPU` or `TPU` from the dropdown menu.
+
+### 5. Writing and Executing Code:
+- Click on a code cell to write Python code.
+- Press `Shift + Enter` to execute the code.
+
+### 6. Importing Libraries:
+Google Colab comes pre-installed with many popular data science libraries. You can easily import them as you would in any Python environment:
+```python
 import pandas as pd
-import plotly.express as px
-
-# Extract
-url = "https://raw.githubusercontent.com/businessdatasolutions/courses/main/datamining-n/datasets/ai.csv"
-rawDF = pd.read_csv(url)
-# Transform
-rawDF = rawDF.sort_values(by=['year', 'Domain'])
-rawDF.head()
+import numpy as np
+import matplotlib.pyplot as plt
 ```
 
-Once you have accessed your dataset you'll want to get familiar with the content and gain insights into its quality and structure. Data analysts or data scientists collect and examine the data to understand its relevance to the project's goals. They explore the data using various techniques, such as descriptive statistics, data visualization, and data profiling. The goal is to identify patterns, relationships, and potential issues within the dataset, which helps in formulating initial hypotheses and refining the project's objectives.
+### 7. Uploading Data:
+To work with datasets, you can upload them directly to Google Colab:
+- Click on the folder icon in the left sidebar.
+- Click on `Upload to session storage` and select your dataset.
 
-```{python}
-# Load
-fig = px.scatter(rawDF, x="year", y="Training_computation_petaflop", color="Domain", log_y=True, hover_name="Entity", title="Computation used to train notable artificial intelligence systems")
-fig.update_traces(marker={'size': 12})
+Alternatively, you can fetch data from Google Drive or use links to download datasets.
 
-rawDF.describe()
+### 8. Installing Additional Libraries:
+If you need a library that's not pre-installed, you can install it using `pip`:
+```python
+!pip install library-name
 ```
+
+### 9. Saving Your Work:
+- Your notebook is automatically saved to Google Drive.
+- You can also download it by clicking on `File` > `Download` > `.ipynb`.
+
+### 10. Sharing Your Notebook:
+- Click on the `Share` button in the top right corner.
+- You can share the link, send invites, or make your notebook public.
+
+# About the author {.unnumbered}
+
+![](me.png)
+
+Witek ten Hove is a senior instructor and researcher at [HAN University of Applied Sciences](https://hanuniversity.com/en/). His main areas of expertise are Data en Web Technologies.
+
+Through his extensive business experience in Finance and International Trade and thorough knowledge of modern data technologies, he is able to make connections between technology and business. As an open source evangelist he firmly believe in the power of knowledge sharing. His mission is to inspire business professionals and help them exploit the full potential of smart technologies.
+
+He is the owner of [Ten Hove Business Data Solutions](http://www.businessdatasolutions.nl/), a consultancy and training company helping organizations to achieve maximum business value through data driven solutions.

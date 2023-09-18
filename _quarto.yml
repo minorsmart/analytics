@@ -9,6 +9,7 @@ book:
   favicon: "logo.png"
   chapters:
     - index.qmd
+    - understand.qmd
     - nb.qmd
 
 format:
