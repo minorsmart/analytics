@@ -1,0 +1,19 @@
+project:
+  type: book
+  output-dir: book
+
+book:
+  title: "Analytics in Python"
+  author: "Witek ten Hove"
+  date: "18/09/2023"
+  favicon: "logo.png"
+  chapters:
+    - index.qmd
+    - nb.qmd
+
+format:
+  html:
+    theme: cosmo
+
+editor: visual
+
