@@ -21,10 +21,19 @@ knitr::kable(
   outlineDF, longtable = TRUE, booktabs = TRUE,
   caption = 'Lesson outline'
 )
-
 ```
 
-```{python message=FALSE, warning=FALSE, include=FALSE}
+
+## Business Case: Filtering Spam
+
+In 2020 spam accounted for more than 50% of total e-mail traffic [@noauthor_spam_nodate]. This illustrates the value of a good spam filter. Naive Bayes spam filtering is a standard technique for handling spam. It is one of the oldest ways of doing spam filtering, with roots in the 1990s.
+
+## Data Understanding
+
+The data you'll be using comes from the SMS Spam Collection [@noauthor_uci_spam_nodate]. It contains a set of SMS messages that are labeled 'ham' or 'spam'. and is a standard data set for testing spam filtering methods.
+
+```{python}
+## Get all necessary packages
 import pandas as pd
 from pandas.api.types import CategoricalDtype
 from IPython.display import display, Markdown
@@ -37,15 +46,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, accuracy_score
 ```
 
-## Business Case: Filtering Spam
-
-In 2020 spam accounted for more than 50% of total e-mail traffic [@noauthor_spam_nodate]. This illustrates the value of a good spam filter. Naive Bayes spam filtering is a standard technique for handling spam. It is one of the oldest ways of doing spam filtering, with roots in the 1990s.
-
-## Data Understanding
-
-The data you'll be using comes from the SMS Spam Collection [@noauthor_uci_spam_nodate]. It contains a set of SMS messages that are labeled 'ham' or 'spam'. and is a standard data set for testing spam filtering methods.
-
 ```{python}
+## Get data
 url = "https://raw.githubusercontent.com/businessdatasolutions/courses/main/datamining-n/datasets/smsspam.csv"
 rawDF = pd.read_csv(url)
 rawDF.head()
